@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - Breast Cancer Prediction System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container result-container">
+        <header>
+            <h1>Breast Cancer Prediction Result</h1>
+        </header>
+        
+        <main class="result-main">
+            <div class="result-card">
+                <h2>Prediction</h2>
+                <div class="prediction-result {{ 'result-malignant' if prediction == 'Malignant' else 'result-benign' }}">
+                    <span class="prediction-text">{{ prediction }}</span>
+                </div>
+                
+                <div class="probability-container">
+                    <h3>Probability of Malignancy</h3>
+                    <div class="probability-bar-container">
+                        <div class="probability-bar" id="prob-bar"></div>
+                    </div>
+                    <span class="probability-value">{{ probability }}%</span>
+                </div>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        document.getElementById('prob-bar').style.width = '{{ probability }}%';
+                    });
+                </script>
+                
+                <div class="result-explanation">
+                    {% if prediction == 'Malignant' %}
+                        <p>The model predicts that this breast mass is <strong>malignant (cancerous)</strong> with {{ probability }}% probability.</p>
+                        <p>This indicates potential breast cancer based on the provided features.</p>
+                    {% else %}
+                        <p>The model predicts that this breast mass is <strong>benign (non-cancerous)</strong> with {{ 100 - probability }}% probability.</p>
+                        <p>This indicates a likely non-cancerous condition based on the provided features.</p>
+                    {% endif %}
+                    
+                    <p class="disclaimer">This prediction is for informational purposes only and should not replace professional medical diagnosis. Please consult a healthcare provider for proper diagnosis and treatment.</p>
+                </div>
+                
+                <div class="result-actions">
+                    <a href="/" class="secondary-button">Make Another Prediction</a>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Breast Cancer Prediction System - For research and educational purposes only</p>
+        </footer>
+    </div>
+</body>
+</html>
