@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 # Load the model and scaler
-model_path = 'svl_model.pkl'
+model_path = 'svm_model.pkl'
 scaler_path = 'scaler.pkl'
 
 # Load model and scaler
