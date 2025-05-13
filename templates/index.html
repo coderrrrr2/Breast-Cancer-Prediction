@@ -4,19 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Breast Cancer Prediction System</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Breast Cancer Prediction System</h1>
-            <p>Enter the feature values to predict breast cancer susceptibility</p>
+            <p>Enter feature values to predict breast cancer susceptibility</p>
         </header>
 
+        {% if error %}
+            <p class="error-message" style="color: red; text-align: center;">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+            <p class="success-message" style="color: green; text-align: center;">{{ success }}</p>
+        {% endif %}
+
         <div class="form-container">
-            <form id="prediction-form">
+            <form id="prediction-form" action="/predict" method="POST">
                 <div class="features-grid">
-                    <!-- First group: Mean values -->
+                    <!-- Mean Features -->
                     <div class="feature-group">
                         <h3>Mean Features</h3>
                         <div class="feature-input">
@@ -36,42 +43,14 @@
                             <input type="number" id="feature_4" name="feature_4" step="0.01" required>
                         </div>
                         <div class="feature-input">
-                            <label for="feature_5">Smoothness Mean:</label>
-                            <input type="number" id="feature_5" name="feature_5" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_6">Compactness Mean:</label>
-                            <input type="number" id="feature_6" name="feature_6" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_7">Concavity Mean:</label>
-                            <input type="number" id="feature_7" name="feature_7" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
                             <label for="feature_8">Concave Points Mean:</label>
                             <input type="number" id="feature_8" name="feature_8" step="0.00001" required>
                         </div>
-                        <div class="feature-input">
-                            <label for="feature_9">Symmetry Mean:</label>
-                            <input type="number" id="feature_9" name="feature_9" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_10">Fractal Dimension Mean:</label>
-                            <input type="number" id="feature_10" name="feature_10" step="0.00001" required>
-                        </div>
                     </div>
                     
-                    <!-- Second group: SE values -->
+                    <!-- SE Features -->
                     <div class="feature-group">
-                        <h3>Standard Error Features</h3>
-                        <div class="feature-input">
-                            <label for="feature_11">Radius SE:</label>
-                            <input type="number" id="feature_11" name="feature_11" step="0.01" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_12">Texture SE:</label>
-                            <input type="number" id="feature_12" name="feature_12" step="0.01" required>
-                        </div>
+                        <h3>Standard Error (SE) Features</h3>
                         <div class="feature-input">
                             <label for="feature_13">Perimeter SE:</label>
                             <input type="number" id="feature_13" name="feature_13" step="0.01" required>
@@ -84,29 +63,9 @@
                             <label for="feature_15">Smoothness SE:</label>
                             <input type="number" id="feature_15" name="feature_15" step="0.00001" required>
                         </div>
-                        <div class="feature-input">
-                            <label for="feature_16">Compactness SE:</label>
-                            <input type="number" id="feature_16" name="feature_16" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_17">Concavity SE:</label>
-                            <input type="number" id="feature_17" name="feature_17" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_18">Concave Points SE:</label>
-                            <input type="number" id="feature_18" name="feature_18" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_19">Symmetry SE:</label>
-                            <input type="number" id="feature_19" name="feature_19" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_20">Fractal Dimension SE:</label>
-                            <input type="number" id="feature_20" name="feature_20" step="0.00001" required>
-                        </div>
                     </div>
                     
-                    <!-- Third group: Worst values -->
+                    <!-- Worst Features -->
                     <div class="feature-group">
                         <h3>Worst Features</h3>
                         <div class="feature-input">
@@ -126,28 +85,8 @@
                             <input type="number" id="feature_24" name="feature_24" step="0.01" required>
                         </div>
                         <div class="feature-input">
-                            <label for="feature_25">Smoothness Worst:</label>
-                            <input type="number" id="feature_25" name="feature_25" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_26">Compactness Worst:</label>
-                            <input type="number" id="feature_26" name="feature_26" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_27">Concavity Worst:</label>
-                            <input type="number" id="feature_27" name="feature_27" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
                             <label for="feature_28">Concave Points Worst:</label>
                             <input type="number" id="feature_28" name="feature_28" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_29">Symmetry Worst:</label>
-                            <input type="number" id="feature_29" name="feature_29" step="0.00001" required>
-                        </div>
-                        <div class="feature-input">
-                            <label for="feature_30">Fractal Dimension Worst:</label>
-                            <input type="number" id="feature_30" name="feature_30" step="0.00001" required>
                         </div>
                     </div>
                 </div>
@@ -160,21 +99,12 @@
             </form>
         </div>
 
-        <div id="result-container" class="result-container hidden">
-            <h2>Prediction Result</h2>
-            <div class="result-content">
-                <div id="prediction-result"></div>
-                <div id="confidence-level"></div>
-            </div>
-        </div>
-
         <div class="info-section">
             <h3>About This Tool</h3>
-            <p>This prediction system uses machine learning to estimate breast cancer susceptibility based on cell nucleus features. The features are categorized into mean values, standard errors, and "worst" (mean of the three largest values) for various cell nucleus measurements.</p>
-            <p>Please note that this tool is for educational purposes only and should not replace professional medical advice.</p>
+            <p>This system uses machine learning to estimate breast cancer susceptibility based on key cell nucleus features. It is for educational purposes only and should not replace professional medical advice.</p>
         </div>
     </div>
 
-    <script src="./static/script.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>
