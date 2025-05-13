@@ -58,7 +58,7 @@ def predict():
     """Handle prediction request for 13 features."""
     if not model_loaded:
         logger.error("Model not loaded at prediction time")
-        return render_template('index_13.html', error="Model not loaded")
+        return render_template('error.html', error="Model not loaded")
 
     try:
         logger.info(f"Received form data: {request.form}")
@@ -72,16 +72,16 @@ def predict():
             feature_value = request.form.get(feature_name)
             if not feature_value:
                 logger.error(f"Missing value for {feature_name}")
-                return render_template('index_13.html', error=f"Missing value for {feature_name}")
+                return render_template('error.html', error=f"Missing value for {feature_name}")
             try:
                 val = float(feature_value)
                 if val < 0:
                     logger.error(f"Negative value for {feature_name}: {val}")
-                    return render_template('index_13.html', error=f"Value for {feature_name} must be positive")
+                    return render_template('error.html', error=f"Value for {feature_name} must be positive")
                 features.append(val)
             except ValueError:
                 logger.error(f"Invalid float for {feature_name}: {feature_value}")
-                return render_template('index_13.html', error=f"Invalid value for {feature_name}")
+                return render_template('error.html', error=f"Invalid value for {feature_name}")
 
         # Convert to numpy array (13 features)
         features_array = np.array(features).reshape(1, -1)
@@ -104,7 +104,7 @@ def predict():
 
     except Exception as e:
         logger.error(f"Prediction error: {str(e)}")
-        return render_template('index_13.html', error=str(e))
+        return render_template('error.html', error=str(e))
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_model():
